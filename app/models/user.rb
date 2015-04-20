@@ -3,7 +3,4 @@ class User < ActiveRecord::Base
   has_many :addresses, :dependent => :destroy
   accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: :all_blank
 
-  def as_json(options={})
-    super(:include => [:addresses])
-  end
 end
