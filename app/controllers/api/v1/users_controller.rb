@@ -11,9 +11,6 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     @user.save
   end      
 
-  def show
-  end
-
   def update
     @user.update_attributes(user_params)
   end
@@ -26,8 +23,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :phone, 
-                                   :addresses_attributes => [:id, :street1, :street2, :city, :state, :country, :zipcode, :_destroy, :user_id])
+    params.require(:user).permit(:first_name, :last_name, :email, :phone)
   end
 
   def get_user
