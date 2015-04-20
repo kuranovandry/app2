@@ -1,5 +1,6 @@
 class Api::V1::ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  respond_to :json
 
   after_filter  :set_csrf_cookie_for_ng
 
