@@ -7,8 +7,6 @@ module Verbosable
   extend ActiveSupport::Concern
 
   def handle_error(exception)
-    require 'newrelic_rpm'
-    NewRelic::Agent.agent.error_collector.notice_error(exception)
 
     if [ActionController::RoutingError, ActionController::UnknownController, ActiveRecord::RecordNotFound].include?(exception.class)
       send_response(exception, 404)

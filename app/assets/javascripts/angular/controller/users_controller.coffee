@@ -23,6 +23,43 @@ myApp.factory 'User', [
         method: 'DELETE'
         params: id: '@id'
 ]
+myApp.factory('routingErrorInterceptor', [
+  '$rootScope', '$q', '$location'
+  ($rootScope, $q, $location) ->
+    return {
+      responseError: (response) ->
+        if response.status is 404
+          deferred = $q.defer()
+          $location.path('/404')
+          return deferred.promise
+        $q.reject response
+      responseSuccess: (response) ->
+        response
+    }
+]).config [
+  '$httpProvider'
+  ($httpProvider) ->
+    $httpProvider.interceptors.push 'routingErrorInterceptor'
+]
+myApp.factory('serverErrorInterceptor', [
+  '$rootScope', '$q', '$location'
+  ($rootScope, $q, $location) ->
+    return {
+      responseError: (response) ->
+        if response.status is 500
+          deferred = $q.defer()
+          $location.path('/500')
+          return deferred.promise
+        $q.reject response
+      responseSuccess: (response) ->
+        response
+    }
+]).config [
+  '$httpProvider'
+  ($httpProvider) ->
+    $httpProvider.interceptors.push 'serverErrorInterceptor'
+]
+
 myApp.controller 'UserListController', [
   '$scope'
   '$http'
@@ -32,7 +69,6 @@ myApp.controller 'UserListController', [
   '$location'
   ($scope, $http, $resource, Users, User, $location) ->
     $scope.users = Users.query()
-
     $scope.deleteUser = (userId) ->
       if confirm('Are you sure you want to delete this user?')
         User.delete { id: userId }, ->
@@ -58,7 +94,7 @@ myApp.controller 'UserUpdateController', [
           $location.path '/'
           return
         ), (error) ->
-          console.log error
+          $location.path '/500'
           return
       return
 
@@ -77,7 +113,7 @@ myApp.controller 'UserAddController', [
           $location.path '/'
           return
         ), (error) ->
-          console.log error
+          $location.path '/500'
           return
       return
 
@@ -90,12 +126,16 @@ myApp.config [
     $routeProvider.when '/users',
       templateUrl: '/templates/users/index.html'
       controller: 'UserListController'
-    $routeProvider.when '/users/new',
+    .when '/users/new',
       templateUrl: '/templates/users/new.html'
       controller: 'UserAddController'
-    $routeProvider.when '/users/:id/edit',
+    .when '/users/:id/edit',
       templateUrl: '/templates/users/edit.html'
       controller: 'UserUpdateController'
+    .when '/404',
+      templateUrl: '/templates/shared/404.html'
+    .when '/500',
+      templateUrl: '/templates/shared/500.html'
     $routeProvider.otherwise redirectTo: '/users'
     return
 ]
