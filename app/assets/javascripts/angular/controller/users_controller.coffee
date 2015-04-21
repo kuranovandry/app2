@@ -5,7 +5,7 @@ myApp = angular.module('myapplication', [
 myApp.factory 'Users', [
   '$resource'
   ($resource) ->
-    $resource '/users.json', {},
+    $resource 'api/v1/users.json', {},
       query:
         method: 'GET'
         isArray: true
@@ -14,7 +14,7 @@ myApp.factory 'Users', [
 myApp.factory 'User', [
   '$resource'
   ($resource) ->
-    $resource '/users/:id.json', {},
+    $resource 'api/v1/users/:id.json', {},
       show: method: 'GET'
       update:
         method: 'PUT'
@@ -64,7 +64,7 @@ myApp.controller 'UserUpdateController', [
 
     return
 ]
-myApp.controller 'UserAddCtr', [
+myApp.controller 'UserAddController', [
   '$scope'
   '$resource'
   'Users'

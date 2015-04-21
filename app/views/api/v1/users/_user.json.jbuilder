@@ -1,1 +1,1 @@
-json.(user, :first_name, :last_name)
+json.(user, :id, :first_name, :last_name, :phone, :email)
