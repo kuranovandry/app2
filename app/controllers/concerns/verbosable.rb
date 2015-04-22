@@ -10,8 +10,6 @@ module Verbosable
 
     if [ActionController::RoutingError, ActionController::UnknownController, ActiveRecord::RecordNotFound].include?(exception.class)
       send_response(exception, 404)
-    elsif [ActiveRecord::RecordInvalid, CustomRecordInvalid].include?(exception.class)
-      send_response(exception, 200)
     else
       send_response(exception, 500)
     end
