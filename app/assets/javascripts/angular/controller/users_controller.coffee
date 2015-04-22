@@ -94,7 +94,7 @@ myApp.controller 'UserUpdateController', [
           $location.path '/'
           return
         ), (error) ->
-          console.log errorKЛKKK
+          console.log error
           return
       return
 
@@ -113,7 +113,7 @@ myApp.controller 'UserAddController', [
           $location.path '/'
           return
         ), (error) ->
-          console.log errorKЛKK
+          console.log error
           return
       return
 
