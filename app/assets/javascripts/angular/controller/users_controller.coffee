@@ -2,10 +2,46 @@ myApp = angular.module('myapplication', [
   'ngRoute'
   'ngResource'
 ])
+myApp.factory('routingErrorInterceptor', [
+  '$rootScope', '$q', '$location'
+  ($rootScope, $q, $location) ->
+    return {
+      responseError: (response) ->
+        if response.status is 404
+          deferred = $q.defer()
+          $location.path('/404')
+          return deferred.promise
+        $q.reject response
+      responseSuccess: (response) ->
+        response
+    }
+]).config [
+  '$httpProvider'
+  ($httpProvider) ->
+    $httpProvider.interceptors.push 'routingErrorInterceptor'
+]
+myApp.factory('serverErrorInterceptor', [
+  '$rootScope', '$q', '$location'
+  ($rootScope, $q, $location) ->
+    return {
+      responseError: (response) ->
+        if response.status is 500
+          deferred = $q.defer()
+          $location.path('/500')
+          return deferred.promise
+        $q.reject response
+      responseSuccess: (response) ->
+        response
+    }
+]).config [
+  '$httpProvider'
+  ($httpProvider) ->
+    $httpProvider.interceptors.push 'serverErrorInterceptor'
+]
 myApp.factory 'Users', [
   '$resource'
   ($resource) ->
-    $resource '/users.json', {},
+    $resource 'api/v1/users.json', {},
       query:
         method: 'GET'
         isArray: true
@@ -14,7 +50,7 @@ myApp.factory 'Users', [
 myApp.factory 'User', [
   '$resource'
   ($resource) ->
-    $resource '/users/:id.json', {},
+    $resource 'api/v1/users/:id.json', {},
       show: method: 'GET'
       update:
         method: 'PUT'
@@ -58,13 +94,13 @@ myApp.controller 'UserUpdateController', [
           $location.path '/'
           return
         ), (error) ->
-          console.log error
+          console.log errorKЛKKK
           return
       return
 
     return
 ]
-myApp.controller 'UserAddCtr', [
+myApp.controller 'UserAddController', [
   '$scope'
   '$resource'
   'Users'
@@ -77,7 +113,7 @@ myApp.controller 'UserAddCtr', [
           $location.path '/'
           return
         ), (error) ->
-          console.log error
+          console.log errorKЛKK
           return
       return
 
