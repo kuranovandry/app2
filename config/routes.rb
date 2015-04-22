@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resource :home
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :users, only: %w(index create destroy show update)
+      resources :users
     end
   end
   root 'home#index'
