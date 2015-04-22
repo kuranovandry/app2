@@ -26,8 +26,6 @@ gem 'puma'
 gem 'angularjs-rails'
 gem 'angular-ui-bootstrap-rails'
 gem 'angularjs-rails-resource', '~> 2.0.0'
-gem 'sass-rails', '>= 3.2'
-gem "minitest"
 
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
