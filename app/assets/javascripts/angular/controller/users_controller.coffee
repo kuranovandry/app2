@@ -106,7 +106,7 @@ myApp.controller 'UserAddController', [
   'Users'
   '$location'
   ($scope, $resource, Users, $location) ->
-
+    $scope.user = {};
     $scope.save = ->
       if $scope.userForm.$valid
         Users.create { user: $scope.user }, (->

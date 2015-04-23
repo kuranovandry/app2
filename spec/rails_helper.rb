@@ -3,6 +3,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'yajl'
 include FactoryGirl
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -25,6 +26,11 @@ include FactoryGirl
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+module JsonApiHelpers
+  def json_response
+    @json_response ||= Yajl::Parser.new.parse(response.body)
+  end
+end
 
 RSpec.configure do |config|
 
@@ -49,6 +55,8 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+  config.include JsonApiHelpers, type: :controller
+  config.render_views
   config.before(:all) do
     FactoryGirl.reload
   end

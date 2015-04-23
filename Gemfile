@@ -16,6 +16,8 @@ gem 'angularjs-rails'
 gem 'angular-ui-bootstrap-rails'
 gem 'angularjs-rails-resource', '~> 2.0.0'
 gem 'spring',        group: :development
+gem 'pry'
+gem 'yajl-ruby', require: 'yajl'
 group :production do
   gem 'rails_12factor'
 end

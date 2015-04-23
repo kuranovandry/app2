@@ -5,7 +5,7 @@ describe User do
     let(:user) { create(:user) }
     let(:invalid_user) { build(:user, email: nil) }
     context 'when user provided email' do
-      it 'has valid factory' do 
+      it 'has valid factory' do
         expect(build(:user)).to be_valid 
       end
     end
