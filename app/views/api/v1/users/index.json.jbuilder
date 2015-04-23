@@ -1,3 +1,2 @@
-json.me do
-  json.partial! 'api/v1/users/users', user: @user
-end
+json.array! @users, partial: 'api/v1/users/user', as: :user
+

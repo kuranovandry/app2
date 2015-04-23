@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
-  before_filter :get_user, except: [:index, :create]
+  before_action :get_user, except: [:index, :create]
   protect_from_forgery
 
   def index
@@ -8,8 +8,8 @@ class Api::V1::UsersController < Api::V1::ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.save
-  end      
+    @user.save!
+  end
 
   def update
     @user.update_attributes(user_params)
@@ -29,6 +29,5 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   def get_user
     @user = User.find(params[:id])
   end
+
 end
-#TODO: install rspec and add basic unit tests (validations, methods tests) - see shoulda-matchers gem
-#TODO: read heroku documentation for rails apps, install necessary gems and deploy to heroku
